@@ -73,24 +73,20 @@ def decreaseHundred():
 
 
 # Hotkeys
-keyboard.register_hotkey('w', increase)
-keyboard.register_hotkey('s', decrease)
+keyboard.register_hotkey('e', increase)
+keyboard.register_hotkey('q', decrease)
 keyboard.register_hotkey('d', increaseTen)
 keyboard.register_hotkey('a', decreaseTen)
-keyboard.register_hotkey('e', increaseHundred)
-keyboard.register_hotkey('q', decreaseHundred)
+keyboard.register_hotkey('w', increaseHundred)
+keyboard.register_hotkey('s', decreaseHundred)
 keyboard.register_hotkey('space', send)
 
 
 # -
 def main():
     global i
-    print(i)
-    if keyboard.is_pressed('enter'):
-        i = 0
-        update()
     
-    elif keyboard.is_pressed('backspace'):
+    if keyboard.is_pressed('backspace'):
         i = 0
         update()
 
