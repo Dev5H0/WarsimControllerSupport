@@ -1,6 +1,6 @@
 # Imports
 import keyboard
-
+from sys import exit
 
 # Variables
 global i
@@ -13,8 +13,13 @@ def send():
     global i
     update()
     keyboard.send('enter')
-    i = 0
+    reset()
     return
+
+def reset():
+    global i
+    i = 0
+    update()    
 
 def _backspace():
     keyboard.send('backspace')
@@ -52,7 +57,7 @@ def increaseTen():
 
 def decreaseTen():
     global i
-    if i <= 10: i = 0
+    if i <= 10: reset()
     else: i -= 10
     update()
     return
@@ -66,7 +71,7 @@ def increaseHundred():
 
 def decreaseHundred():
     global i
-    if i <= 100: i = 0
+    if i <= 100: reset()
     else: i -= 100
     update()
     return
@@ -80,19 +85,14 @@ keyboard.register_hotkey('a', decreaseTen)
 keyboard.register_hotkey('w', increaseHundred)
 keyboard.register_hotkey('s', decreaseHundred)
 keyboard.register_hotkey('space', send)
+keyboard.register_hotkey('backspace', reset)
+keyboard.register_hotkey('escape', exit)
 
 
 # -
 def main():
     global i
-    
-    if keyboard.is_pressed('backspace'):
-        i = 0
-        update()
-
-    elif keyboard.is_pressed('escape'):
-        import sys
-        sys.exit()
+    print(i)
 
 
 while True: main()
