@@ -5,9 +5,13 @@ from sys import exit
 # Variables
 global i
 i = 0
+defI = 0
 maxI = 999999
-
-
+incA = 1
+incB = 10
+incC = 100
+timeoutInc = 0.1
+timeoutEnter = 1
 # Function
 def send():
     global i
@@ -18,8 +22,9 @@ def send():
 
 def reset():
     global i
-    i = 0
-    update()    
+    i = defI
+    update()
+    return
 
 def _backspace():
     keyboard.send('backspace')
@@ -29,6 +34,7 @@ def _backspace():
     keyboard.send('backspace')
     keyboard.send('backspace')
     keyboard.send('backspace')
+    return
 
 def update():
     global i
@@ -38,62 +44,57 @@ def update():
 
 def increase():
     global i
-    if not i >= maxI: i += 1
+    if not i >= maxI: i += incA
     update()
     return
 
 def decrease():
     global i
-    if not i <= 0: i -= 1
+    if not i <= 0: i -= incA
     update()
     return
 
 def increaseTen():
     global i    
-    if i >= maxI-10: i = maxI
-    else: i += 10
+    if i >= maxI-incB: i = incB
+    else: i += incB
     update()
     return
 
 def decreaseTen():
     global i
-    if i <= 10: reset()
-    else: i -= 10
+    if i <= incB: reset()
+    else: i -= incB
     update()
     return
 
 def increaseHundred():
     global i
-    if i >= maxI-100: i = maxI
-    else: i += 100
+    if i >= maxI-incC: i = maxI
+    else: i += incC
     update()
     return
 
 def decreaseHundred():
     global i
-    if i <= 100: reset()
-    else: i -= 100
+    if i <= incC: reset()
+    else: i -= incC
     update()
     return
 
 
 # Hotkeys
-keyboard.register_hotkey('e', increase)
-keyboard.register_hotkey('q', decrease)
-keyboard.register_hotkey('d', increaseTen)
-keyboard.register_hotkey('a', decreaseTen)
-keyboard.register_hotkey('w', increaseHundred)
-keyboard.register_hotkey('s', decreaseHundred)
-keyboard.register_hotkey('space', send)
-keyboard.register_hotkey('backspace', reset)
+spaceTime = timeoutEnter
+keyboard.register_hotkey('e', increase, suppress=timeoutInc)
+keyboard.register_hotkey('q', decrease, suppress=timeoutInc)
+keyboard.register_hotkey('d', increaseTen, suppress=timeoutInc)
+keyboard.register_hotkey('a', decreaseTen, suppress=timeoutInc)
+keyboard.register_hotkey('w', increaseHundred, suppress=timeoutInc)
+keyboard.register_hotkey('s', decreaseHundred, suppress=timeoutInc)
+keyboard.register_hotkey('space', send, suppress=spaceTime) # He he he 
+keyboard.register_hotkey('backspace', reset, suppress=spaceTime) # He he he he he he he hello (world)
 keyboard.register_hotkey('escape', exit)
 
 
 # -
-def main():
-    print(i)
-
-
-while True: main()
-        
-
+while True: print(i)
