@@ -91,7 +91,6 @@ keyboard.register_hotkey('escape', exit)
 
 # -
 def main():
-    global i
     print(i)
 
 
