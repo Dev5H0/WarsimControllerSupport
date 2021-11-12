@@ -1,1 +1,5 @@
+.gitignore
 __pycache__/
+
+output/
+exeConfig.json
