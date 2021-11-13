@@ -1,6 +1,6 @@
 # Imports
-from keyboard import send as keyboard_send, write as keyboard_write, register_hotkey as keyboard_register_hotkey
-from sys import exit
+from keyboard import send as keyboard_send, write as keyboard_write, register_hotkey as keyboard_register_hotkey, is_pressed as keyboard_is_pressed
+from sys import exit as sys_exit
 
 
 # Variables
@@ -130,12 +130,13 @@ keyboard_register_hotkey('s', decreaseInc, suppress=timeoutInc)
 keyboard_register_hotkey('r', switchInc)
 keyboard_register_hotkey('space', send, suppress=spaceTime) # He he he 
 keyboard_register_hotkey('backspace', reset, suppress=spaceTime) # He he he he he he he hello (world)
-keyboard_register_hotkey('escape', exit)
 
 
 # -
 def main():
-    while True: print(f'Current Value: {i}; Current Incrementer: {_currentInc},{currentInc}')
+    while True: 
+            print(f'Current Value: {i}; Current Incrementer: {_currentInc},{currentInc}')
+            if keyboard_is_pressed('escape'): sys_exit()
 
 
 from sys import platform as sys_platform
@@ -145,7 +146,7 @@ if sys_platform == 'win32':
         from win32api import GetLastError as win32api_GetLastError
         from winerror import ERROR_ALREADY_EXISTS as winerror_ERROR_ALREADY_EXISTS
         win32event_CreateMutex(None, 1, 'mutex')
-        if win32api_GetLastError() == winerror_ERROR_ALREADY_EXISTS: exit()
+        if win32api_GetLastError() == winerror_ERROR_ALREADY_EXISTS: sys_exit()
         else: main()
     except: pass
 elif sys_platform == ('linux' or 'linux2'): 
