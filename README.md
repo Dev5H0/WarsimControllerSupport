@@ -5,9 +5,10 @@
  1. Go to Steam and enter "Big Picture Mode". 
  2. Find Warsim, press "Manage Game" and then "Controller Configuration"
  3. Setup the controller:
-   - "Q" & "E" decrease and increases the current value by "1", respectively.
-   - "A" & "D" decrease and increases the current value by "10", respectively.
-   - "S" & "W" decrease and increases the current value by "100", respectively.
+   - "Q" & "E" decrease and increase the current option value by "1", respectively.
+   - "A" & "D" decrease and increase the current option value by the current incrementer's value, respectively.
+   - "S" & "W" decrease and increase the current incrementer's value by "5", respectively.
+   - "R" switches the current incrementer.
    - "Space" sends the current value to the game. 
    - "Backspace" sets the current value to "0". 
    - "Escape" closes this program. 
