@@ -134,6 +134,12 @@ def decreaseInc():
     update()
     return 
 
+def resetInc():
+    global currentInc
+    currentInc = controls.incrementerAmount
+    update()
+    return
+
 def switchInc():
     global currentIncText, currentInc, incText, incA, incB
     if currentIncText == 'incA': 
@@ -157,6 +163,7 @@ keyboard_register_hotkey(controls.increaseValueInc, increaseSecondary, suppress=
 keyboard_register_hotkey(controls.decreaseValueInc, decreaseSecondary, suppress=timeoutInc)
 keyboard_register_hotkey(controls.increaseIncrementer, increaseInc, suppress=timeoutInc)
 keyboard_register_hotkey(controls.decreaseIncrementer, decreaseInc, suppress=timeoutInc)
+keyboard_register_hotkey(controls.resetIncrementer, resetInc, suppress=spaceTime) # He he he he he he he hello (world)
 keyboard_register_hotkey(controls.switchIncrementer, switchInc)
 keyboard_register_hotkey(controls.sendValue, send, suppress=spaceTime) # He he he 
 keyboard_register_hotkey(controls.resetValue, reset, suppress=spaceTime) # He he he he he he he hello (world)
