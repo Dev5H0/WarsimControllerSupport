@@ -75,6 +75,7 @@ def reset():
 def check():
     global i
     if i >= maxI-incB: i = maxI 
+    return
 
 def _backspace():
     for _ in range(len(str(i))):
@@ -135,7 +136,7 @@ def decreaseInc():
 
 def resetInc():
     global currentInc
-    currentInc = controls.incrementerAmount
+    currentInc = int(controls.incrementerAmount)
     update()
     return
 
