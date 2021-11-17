@@ -172,7 +172,8 @@ elif sys_platform == ('linux' or 'linux2'):
 def main():
     global running
 #    threading_Timer(0.1, main).start()
-    clear()
+#    clear()
     print(f'Current Value: {i}; Current Incrementer: {currentIncText},{currentInc}')
 
-main()
+while running:
+    main()
