@@ -27,9 +27,8 @@ timeoutEnter = 1
 class config:
     def __init__(self):
         self.parse = config.parse
-
     config = configparser_ConfigParser()
-    config.read('./src/config.ini')
+    config.read('config.ini')
     cat = config['CONTROLS']
     def parse(keyword:str, cat=cat):
         return str(cat[keyword.lower()])
@@ -184,3 +183,6 @@ def main():
 
 while running:
     main()
+
+
+os_system('/cmd')
