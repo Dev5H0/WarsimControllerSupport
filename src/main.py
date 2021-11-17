@@ -1,6 +1,9 @@
 # Imports
+import configparser
 from keyboard import send as keyboard_send, write as keyboard_write, register_hotkey as keyboard_register_hotkey, is_pressed as keyboard_is_pressed
-from sys import exit as sys_exit
+from configparser import  ConfigParser as configparser_ConfigParser
+from os import system as os_system
+from sys import platform as sys_platform, exit as sys_exit
 
 
 # Variables
@@ -11,18 +14,37 @@ maxI = 999999
 incMain = 1
 incA = 10
 incB = 10
+incrementerAmount = 5
 currentInc = incA
-_currentInc = 'incA'
-incrementer = 5
-incrementerB = 20
+currentIncText = 'incA'
+incText = 'incrementerA'
 timeoutInc = 0.1
 timeoutEnter = 1
-incText = 'incrementerA'
+
 
 # Classes
-class controls:
-    send = None
+class config:
+    def __init__(self):
+        self.parse = config.parse
 
+    config = configparser_ConfigParser()
+    config.read('./src/config.ini')
+    cat = config['CONTROLS']
+    def parse(keyword:str, cat=cat):
+        return str(cat[keyword.lower()])
+
+class controls:
+    sendValue = config.parse('sendValue')
+    resetValue = config.parse('resetValue')
+    increaseValue = config.parse('increaseValue')
+    decreaseValue = config.parse('decreaseValue')
+    increaseValueInc = config.parse('increaseValueInc')
+    decreaseValueInc = config.parse('decreaseValueInc')
+    incrementerAmount = (config.parse('incrementerAmount'))
+    switchIncrementer = config.parse('switchIncrementer')
+    resetIncrementer = config.parse('resetIncrementer')
+    increaseIncrementer = config.parse('increaseIncrementer')
+    decreaseIncrementer = config.parse('decreaseIncrementer')
 
 
 # Function
@@ -93,67 +115,72 @@ def decreaseSecondary():
 
 def increaseInc():
     global currentInc
-    currentInc += incrementer
+    currentInc += incrementerAmount
     update()
     return 
 
 def decreaseInc():
     global currentInc
-    if currentInc <= incrementer: currentInc = incrementer
-    else: currentInc -= incrementer
+    if currentInc <= incrementerAmount: currentInc = incrementerAmount
+    else: currentInc -= incrementerAmount
     update()
     return 
 
 def switchInc():
-    global _currentInc, currentInc, incText, incA, incB
-    if _currentInc == 'incA': 
+    global currentIncText, currentInc, incText, incA, incB
+    if currentIncText == 'incA': 
         incA = currentInc
         incText = 'incrementerB'
         currentInc = incB
-        _currentInc = 'incB'
-    elif _currentInc == 'incB': 
+        currentIncText = 'incB'
+    elif currentIncText == 'incB': 
         incB = currentInc
         incText = 'incrementerA'
         currentInc = incA
-        _currentInc = 'incA'
+        currentIncText = 'incA'
     update()
     return
 
 # Hotkeys
 spaceTime = timeoutEnter
-keyboard_register_hotkey('e', increaseMain, suppress=timeoutInc)
-keyboard_register_hotkey('q', decreaseMain, suppress=timeoutInc)
-keyboard_register_hotkey('d', increaseSecondary, suppress=timeoutInc)
-keyboard_register_hotkey('a', decreaseSecondary, suppress=timeoutInc)
-keyboard_register_hotkey('w', increaseInc, suppress=timeoutInc)
-keyboard_register_hotkey('s', decreaseInc, suppress=timeoutInc)
-keyboard_register_hotkey('r', switchInc)
-keyboard_register_hotkey('space', send, suppress=spaceTime) # He he he 
-keyboard_register_hotkey('backspace', reset, suppress=spaceTime) # He he he he he he he hello (world)
+keyboard_register_hotkey(controls.increaseValue, increaseMain, suppress=timeoutInc)
+keyboard_register_hotkey(controls.decreaseValue, decreaseMain, suppress=timeoutInc)
+keyboard_register_hotkey(controls.increaseValueInc, increaseSecondary, suppress=timeoutInc)
+keyboard_register_hotkey(controls.decreaseValueInc, decreaseSecondary, suppress=timeoutInc)
+keyboard_register_hotkey(controls.increaseIncrementer, increaseInc, suppress=timeoutInc)
+keyboard_register_hotkey(controls.decreaseIncrementer, decreaseInc, suppress=timeoutInc)
+keyboard_register_hotkey(controls.switchIncrementer, switchInc)
+keyboard_register_hotkey(controls.sendValue, send, suppress=spaceTime) # He he he 
+keyboard_register_hotkey(controls.resetValue, reset, suppress=spaceTime) # He he he he he he he hello (world)
 
 
 # -
-def main():
-    while True: 
-            print(f'Current Value: {i}; Current Incrementer: {_currentInc},{currentInc}')
-            if keyboard_is_pressed('escape'): sys_exit()
+def printing():
+    while running: 
+#        clear()
+#        print(f'Current Value: {i}; Current Incrementer: {currentIncText},{currentInc}')
+        wait(0.5)
 
 
-from sys import platform as sys_platform
 if sys_platform == 'win32':
-    try:
-        from win32event import CreateMutex as win32event_CreateMutex
-        from win32api import GetLastError as win32api_GetLastError
-        from winerror import ERROR_ALREADY_EXISTS as winerror_ERROR_ALREADY_EXISTS
-        win32event_CreateMutex(None, 1, 'mutex')
-        if win32api_GetLastError() == winerror_ERROR_ALREADY_EXISTS: sys_exit()
-        else: main()
-    except: pass
+    clearCommand = 'cls'
 elif sys_platform == ('linux' or 'linux2'): 
-    try: 
-        from pidfile import PIDFile as pidfile_PIDFile, AlreadyRunningError as pidfile_AlreadyRunningError
-        try: 
-            with pidfile_PIDFile(): main()
-        except pidfile_AlreadyRunningError: pass
-    except: pass
-else: main()
+    clearCommand = 'clear'
+
+def clear():
+    os_system(clearCommand)
+
+def quit():
+    while running:
+        if keyboard_is_pressed('escape'): sys_exit()
+
+import threading as t
+from time import sleep as wait
+running = True
+x = t.Thread(target=printing, daemon=True)
+y = t.Thread(target=quit, daemon=True)
+x.start()
+y.start()
+x.join()
+y.join()
+
