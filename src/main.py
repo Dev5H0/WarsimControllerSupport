@@ -1,12 +1,13 @@
 # Imports
-import configparser
 from keyboard import send as keyboard_send, write as keyboard_write, register_hotkey as keyboard_register_hotkey, is_pressed as keyboard_is_pressed
 from configparser import  ConfigParser as configparser_ConfigParser
+#from threading import Timer as threading_Timer
 from os import system as os_system
 from sys import platform as sys_platform, exit as sys_exit
 
 
 # Variables
+running = True
 global i
 i = 0
 minI = 0
@@ -47,7 +48,15 @@ class controls:
     decreaseIncrementer = config.parse('decreaseIncrementer')
 
 
-# Function
+# Functions
+def close():
+    global running
+    running = False
+    sys_exit()
+
+def clear():
+    os_system(clearCommand)
+
 def send():
     global i
     update()
@@ -67,7 +76,6 @@ def reset():
 def check():
     global i
     if i >= maxI-incB: i = maxI 
-
 
 def _backspace():
     for _ in range(len(str(i))):
@@ -152,35 +160,19 @@ keyboard_register_hotkey(controls.decreaseIncrementer, decreaseInc, suppress=tim
 keyboard_register_hotkey(controls.switchIncrementer, switchInc)
 keyboard_register_hotkey(controls.sendValue, send, suppress=spaceTime) # He he he 
 keyboard_register_hotkey(controls.resetValue, reset, suppress=spaceTime) # He he he he he he he hello (world)
+keyboard_register_hotkey('escape', close) # Once the "escape" key is pressed, stops the application completely. 
 
 
 # -
-def printing():
-    while running: 
-#        clear()
-#        print(f'Current Value: {i}; Current Incrementer: {currentIncText},{currentInc}')
-        wait(0.5)
-
-
 if sys_platform == 'win32':
     clearCommand = 'cls'
 elif sys_platform == ('linux' or 'linux2'): 
     clearCommand = 'clear'
 
-def clear():
-    os_system(clearCommand)
+def main():
+    global running
+#    threading_Timer(0.1, main).start()
+    clear()
+    print(f'Current Value: {i}; Current Incrementer: {currentIncText},{currentInc}')
 
-def quit():
-    while running:
-        if keyboard_is_pressed('escape'): sys_exit()
-
-import threading as t
-from time import sleep as wait
-running = True
-x = t.Thread(target=printing, daemon=True)
-y = t.Thread(target=quit, daemon=True)
-x.start()
-y.start()
-x.join()
-y.join()
-
+main()
