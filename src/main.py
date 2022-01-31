@@ -52,13 +52,13 @@ class controls:
 # Functions
 def online(func:function):
     if running == True: func()
-    return 
+    return
 
 def pause():
     global running
     if running == True: running = False
     elif running == False: running = True
-    return 
+    return
 
 def close():
     global app_close
@@ -67,7 +67,7 @@ def close():
 
 def clear():
     os_system(clearCommand)
-    return 
+    return
 
 def send():
     global i
@@ -77,18 +77,18 @@ def send():
     keyboard_send('enter')
     reset()
     update()
-    return 
+    return
 
 def reset():
     global i
     i = minI
     update()
-    return 
+    return
 
 def check():
     global i
-    if i >= maxI-incB: i = maxI 
-    return 
+    if i >= maxI-incB: i = maxI
+    return
 
 def _backspace():
     for _ in range(len(str(i))):
@@ -99,58 +99,58 @@ def _backspace():
         keyboard_send('backspace')
         for _ in range(6):
             keyboard_send('backspace')
-    return 
+    return
 
 def update():
     global i, temp
     _backspace()
     keyboard_write(f'{i}; {incText}:{currentInc}')
     if i >= maxI: i = maxI
-    return 
+    return
 
 def increaseMain():
     global i
     if not i >= maxI: i += incMain
     update()
-    return 
+    return
 
 def decreaseMain():
     global i
     if not i <= 0: i -= incMain
     update()
-    return 
+    return
 
 def increaseSecondary():
     global i
     if i >= maxI-currentInc: i = currentInc
     else: i += currentInc
     update()
-    return 
+    return
 
 def decreaseSecondary():
     global i
     if i <= currentInc: reset()
     else: i -= currentInc
     update()
-    return 
+    return
 
 def increaseInc():
     global currentInc
     currentInc += incrementerAmount
     update()
-    return 
+    return
 
 def decreaseInc():
     global currentInc
     if currentInc <= incrementerAmount: currentInc = incrementerAmount
     else: currentInc -= incrementerAmount
     update()
-    return 
+    return
 
 def resetInc():
     global currentInc
     currentInc = incrementerAmount
-    return 
+    return
 
 
 def switchInc():
@@ -169,19 +169,19 @@ def switchInc():
     return
 
 # Hotkeys
-spaceTime = timeoutEnter # He he he(llo), spacetime. 
-keyboard_register_hotkey(controls.increaseValue, online, (increaseMain), suppress=timeoutInc) # Increase value. 
-keyboard_register_hotkey(controls.decreaseValue, online, (decreaseMain), suppress=timeoutInc) # Decrease value. 
-keyboard_register_hotkey(controls.increaseValueInc, online, (increaseSecondary), suppress=timeoutInc) # Increase value by incrementer's value. 
-keyboard_register_hotkey(controls.decreaseValueInc, online, (decreaseSecondary), suppress=timeoutInc) # Decrease value by incrementer's value. 
-keyboard_register_hotkey(controls.increaseIncrementer, online, (increaseInc), suppress=timeoutInc) # Increase the current incrementer's value. 
-keyboard_register_hotkey(controls.decreaseIncrementer, online, (decreaseInc), suppress=timeoutInc) # Decrease the current incrementer's value. 
-keyboard_register_hotkey(controls.switchIncrementer, online, (switchInc)) # Switch the incrementer. 
-keyboard_register_hotkey(controls.resetIncrementer, online, (reset)) # Reset the current incrementer's value. 
-keyboard_register_hotkey(controls.sendValue, online, args=(send), suppress=spaceTime) # Send current value. 
-keyboard_register_hotkey(controls.resetValue, online, args=(reset), suppress=spaceTime) # Reset value to zero. 
-keyboard_register_hotkey(controls.pause, pause) # Pause the program. 
-keyboard_register_hotkey(controls.close, close) # Quit the program. 
+spaceTime = timeoutEnter # He he he(llo), spacetime.
+keyboard_register_hotkey(controls.increaseValue, online, (increaseMain), suppress=timeoutInc) # Increase value.
+keyboard_register_hotkey(controls.decreaseValue, online, (decreaseMain), suppress=timeoutInc) # Decrease value.
+keyboard_register_hotkey(controls.increaseValueInc, online, (increaseSecondary), suppress=timeoutInc) # Increase value by incrementer's value.
+keyboard_register_hotkey(controls.decreaseValueInc, online, (decreaseSecondary), suppress=timeoutInc) # Decrease value by incrementer's value.
+keyboard_register_hotkey(controls.increaseIncrementer, online, (increaseInc), suppress=timeoutInc) # Increase the current incrementer's value.
+keyboard_register_hotkey(controls.decreaseIncrementer, online, (decreaseInc), suppress=timeoutInc) # Decrease the current incrementer's value.
+keyboard_register_hotkey(controls.switchIncrementer, online, (switchInc)) # Switch the incrementer.
+keyboard_register_hotkey(controls.resetIncrementer, online, (reset)) # Reset the current incrementer's value.
+keyboard_register_hotkey(controls.sendValue, online, args=(send), suppress=spaceTime) # Send current value.
+keyboard_register_hotkey(controls.resetValue, online, args=(reset), suppress=spaceTime) # Reset value to zero.
+keyboard_register_hotkey(controls.pause, pause) # Pause the program.
+keyboard_register_hotkey(controls.close, close) # Quit the program.
 
 
 # -
@@ -200,4 +200,3 @@ while not app_close:
         pass
 
 close()
-sys_exit()
