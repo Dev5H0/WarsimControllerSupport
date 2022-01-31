@@ -88,8 +88,4 @@ elif sys_platform != 'win32':
 	clearCommand = 'clear'
 
 while running:
-	clear()
 	print(f'Current Value: {i}')
-
-#os_system('/cmd')
-
