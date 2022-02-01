@@ -1,8 +1,10 @@
 **/.gitignore
 **/.vscode/
 **/__pycache__/
+**/dist/
 
 **/ignore/
 output/
 
-*.exe
+**.AppImage
+**.exe
