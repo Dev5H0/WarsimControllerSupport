@@ -1,7 +1,6 @@
 #! Python3.9
 # Imports
 from keyboard import send as keyboard_send, write as keyboard_write, register_hotkey as keyboard_register_hotkey
-from configparser import ConfigParser
 from os import system as os_system
 from sys import platform as sys_platform, exit as sys_exit
 
